@@ -37,7 +37,7 @@ services:
       - --no-sandbox
       - --disable-gpu
       - --disable-dev-shm-usage
-      - --remote-debugging-address=localhost
+      - --remote-debugging-address=127.0.0.1
       - --remote-debugging-port=9222
       - --hide-scrollbars
     extends:
