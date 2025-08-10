@@ -28,7 +28,7 @@ if ! grep -q "INFISICAL" .env; then
         echo "Adding secrets from infisical to .env"
         {
             echo "# BEGIN INFISICAL SECRETS"
-            infisical export --env prod --path /karakeep
+            infisical export --env "${INFISICAL_ENV:-prod}" --path /karakeep
             echo "# END INFISICAL SECRETS"
         } >>.env
     fi
