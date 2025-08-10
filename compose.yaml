@@ -31,7 +31,7 @@ services:
       service: tailscale-app-base
 
   chrome:
-    image: zenika:alpine-chrome:latest
+    image: zenika/alpine-chrome:latest
     restart: unless-stopped
     command:
       - --no-sandbox
