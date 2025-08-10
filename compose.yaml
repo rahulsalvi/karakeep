@@ -1,0 +1,62 @@
+# vim: ft=yaml.docker-compose
+---
+name: karakeep
+
+include:
+  - ext/docker-compose-snippets/tailscale-caddy.yaml
+  - ext/docker-compose-snippets/simple-reverse-proxy.yaml
+
+services:
+  karakeep:
+    image: ghcr.io/rahulsalvi/karakeep:latest
+    environment:
+      PORT: 8080
+      HOSTNAME: localhost
+      DATA_DIR: /data
+      MEILI_ADDR: http://localhost:7700
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      BROWSER_WEB_URL: http://localhost:9222
+      OAUTH_WELLKNOWN_URL: https://pocket-id.ipn.rahulsalvi.com/.well-known/openid-configuration
+      OAUTH_CLIENT_ID: ${OIDC_CLIENT_ID}
+      OAUTH_CLIENT_SECRET: ${OIDC_CLIENT_SECRET}
+      OAUTH_PROVIDER_NAME: Pocket ID
+      NEXTAUTH_URL: https://${COMPOSE_PROJECT_NAME}.ipn.rahulsalvi.com
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      DISABLE_PASSWORD_AUTH: true
+    volumes:
+      - karakeep-data:/data
+    restart: unless-stopped
+    extends:
+      file: ext/docker-compose-snippets/tailscale-app-base.yaml
+      service: tailscale-app-base
+
+  chrome:
+    image: zenika:alpine-chrome:latest
+    restart: unless-stopped
+    command:
+      - --no-sandbox
+      - --disable-gpu
+      - --disable-dev-shm-usage
+      - --remote-debugging-address=localhost
+      - --remote-debugging-port=9222
+      - --hide-scrollbars
+    extends:
+      file: ext/docker-compose-snippets/tailscale-app-base.yaml
+      service: tailscale-app-base
+
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    restart: unless-stopped
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_NO_ANALYTICS: true
+      MEILI_ENV: production
+    volumes:
+      - meilisearch-data:/meili_data
+    extends:
+      file: ext/docker-compose-snippets/tailscale-app-base.yaml
+      service: tailscale-app-base
+
+volumes:
+  karakeep-data:
+  meilisearch-data:
