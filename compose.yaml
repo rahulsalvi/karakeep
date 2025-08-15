@@ -23,6 +23,11 @@ services:
       OAUTH_PROVIDER_NAME: Pocket ID
       NEXTAUTH_URL: https://${COMPOSE_PROJECT_NAME}.ipn.rahulsalvi.com
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      OPENAI_API_KEY: ${OPENWEBUI_API_KEY}
+      OPENAI_BASE_URL: https://open-webui.ipn.rahulsalvi.com/api/v1
+      INFERENCE_TEXT_MODEL: qwen3:14b
+      INFERENCE_IMAGE_MODEL: gemma3:12b-it-qat
+      INFERENCE_EMBEDDING_MODEL: mxbai-embed-large:335m
       DISABLE_PASSWORD_AUTH: true
     volumes:
       - karakeep-data:/data
