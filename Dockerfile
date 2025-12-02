@@ -1,4 +1,4 @@
-FROM ghcr.io/karakeep-app/karakeep:0.28.0
+FROM ghcr.io/karakeep-app/karakeep:0.29.0
 
 COPY ext/pki/tls/*.crt /usr/local/share/ca-certificates
 RUN apk --no-cache add ca-certificates && update-ca-certificates
