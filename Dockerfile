@@ -1,4 +1,4 @@
-FROM ghcr.io/karakeep-app/karakeep:0.31.0
+FROM ghcr.io/karakeep-app/karakeep:0.32.0
 
 RUN mkdir -p /usr/local/share/ca-certificates
 COPY ext/pki/tls/*.crt /usr/local/share/ca-certificates
